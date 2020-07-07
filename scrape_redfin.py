@@ -3,12 +3,13 @@ import pandas as pd
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
 import time
+import re
 
 def init_browser():
     """start chrome browser
     """
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
-    return Browser('chrome', **executable_path, headless=False)
+    return Browser('chrome', **executable_path, headless=True)
 
 
 def visit_browser(url:str):
@@ -61,7 +62,7 @@ def scraper():
     # find out number of pages
     last_page = int(soup.find_all("div","PagingControls")[0].find_all("a")[-1].text)
     homecard_list = []
-    for i in range(last_page):
+    for i in range(2):
         url = f"https://www.redfin.com/county/321/CA/Los-Angeles-County/Page-{i+1}"
         # visit each page
         soup = visit_browser(url)
@@ -86,12 +87,24 @@ def scraper():
 
     return data
 
-def data_cleaner(dataframe)->pd.core.frame.DataFrame.:
+def data_cleaner(dataframe)->pd.core.frame.DataFrame:
     """clean up data from scraper function
     """
-    
+    # clean up data
+    dataframe["beds"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["beds"]]
+    dataframe["baths"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["baths"]]
+    dataframe["price"] = [int(p.replace("$","").replace(",","")) for p in dataframe["price"]]
+    dataframe["area"] = [re.split("\s", a)[0].replace(",","") for a in dataframe["area"]]
 
+
+    return dataframe
 
 def summary(dataframe)->dict:
     """summarize dataframe from scraper function
     """
+    summary_info = {}
+    summary_info["avg_price"] = round(dataframe["price"].describe()[1],0) # average price
+    summary_info["median_price"] = round(dataframe["price"].describe()[5],0) # median price
+    summary_info["max_price"] = round(dataframe["price"].describe()[-1],0) # max price
+    return summary_info
+
