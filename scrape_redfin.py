@@ -86,4 +86,12 @@ def scraper():
 
     return data
 
+def data_cleaner(dataframe)->pd.core.frame.DataFrame.:
+    """clean up data from scraper function
+    """
+    
 
+
+def summary(dataframe)->dict:
+    """summarize dataframe from scraper function
+    """
