@@ -16,7 +16,7 @@ def home():
     house_data = mongo.db.redfin.find_one()
     return render_template("index.html",redfin = house_data)
 
-@app.route("/scrape")
+@ app.route("/scrape")
 def scraper():
     redfin = mongo.db.redfin
     house_data = scrape_redfin.summary(scrape_redfin.data_cleaner(scrape_redfin.scraper()))
@@ -25,4 +25,5 @@ def scraper():
 
 if __name__=="__main__":
     app.run(debug=True)
+
 

@@ -5,16 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Journey to Mars</title>
+    <title>Redfine Housing Summary</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/style.css" type="text/css">
 </head>
 
 <body>
     <div class="container">
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Redfin Website</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Data</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+
         <div class="jumbotron text-center">
-            <h1><strong>Housing Information</strong></h1>
-            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get Info!</a></p>
+            <h1><strong>LA County Housing Information</strong></h1><br>
+            
+            <p class = "fs-title ta-center w90 wmx4 mx-auto mb24">
+                You can get a sense of the most current LA county 
+                housing price/price range by clicking below button. 
+                This program scrapes live Redfin housing data and will display in below.
+            </p>
+            <p><a class="btn btn-dark" href="/scrape" role="button">Get Info!</a></p>
         </div>
         <h4 class="sub-heading">Median House Price: {{ redfin['median_price'] }}</h4>
 
