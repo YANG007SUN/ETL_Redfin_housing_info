@@ -41,7 +41,36 @@
             </p>
             <p><a class="btn btn-dark" href="/scrape" role="button">Get Info!</a></p>
         </div>
-        <h4 class="sub-heading">Median House Price: {{ redfin['median_price'] }}</h4>
+     
+        <div class="summary_content">
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <h4 class="card-title"><strong>Average House Price Listed</strong></h4>
+                <h5 class="card-value">{{ redfin['avg_price'] }}</h5>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="card">
+                <h4 class="card-title"><strong>Median House Price Listed</strong></h4>
+                <h5 class="card-value">{{ redfin['median_price'] }}</h5>
+              </div>
+            </div>
+  
+            <div class="col-md-4">
+              <div class="card">
+                <h4 class="card-title"><strong>Max House Price Listed</strong></h4>
+                <h5 class="card-value">{{ redfin['max_price'] }}</h5>
+              </div>
+            </div>
+
+          </div>
+         
+          
+
+        </div>
 
 
 
