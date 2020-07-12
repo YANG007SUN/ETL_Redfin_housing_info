@@ -4,6 +4,9 @@ from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
 import time
 import re
+import ast
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 def init_browser():
     """start chrome browser
@@ -62,7 +65,7 @@ def scraper():
     # find out number of pages
     last_page = int(soup.find_all("div","PagingControls")[0].find_all("a")[-1].text)
     homecard_list = []
-    for i in range(2):
+    for i in range(last_page):
         url = f"https://www.redfin.com/county/321/CA/Los-Angeles-County/Page-{i+1}"
         # visit each page
         soup = visit_browser(url)
@@ -79,11 +82,12 @@ def scraper():
             sub_dict["price"] = scrape_cards_info(homecard, "price","span","homecardV2Price",1)
             sub_dict["address"] = scrape_cards_info(homecard, "address","div","homeAddressV2",1)
             sub_dict["link"] = "https://www.redfin.com"+scrape_cards_info(homecard, "link","","",1)
+            sub_dict["city"] = ast.literal_eval(homecard.find_all("script")[0].text)[0]["address"]["addressLocality"].strip()
 
             # append dict to list
             homecard_list.append(sub_dict)
     
-    data = pd.DataFrame(columns = ["beds","baths","area","price","address", "link"], data = homecard_list)
+    data = pd.DataFrame(columns = ["beds","baths","area","price","address", "link","city"], data = homecard_list)
 
     return data
 
@@ -95,6 +99,7 @@ def data_cleaner(dataframe)->pd.core.frame.DataFrame:
     dataframe["baths"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["baths"]]
     dataframe["price"] = [int(p.replace("$","").replace(",","")) for p in dataframe["price"]]
     dataframe["area"] = [re.split("\s", a)[0].replace(",","") for a in dataframe["area"]]
+    
 
 
     return dataframe
@@ -108,3 +113,17 @@ def summary(dataframe)->dict:
     summary_info["max_price"] =  "${:,.0f}".format(round(dataframe["price"].describe()[-1],0)) # max price
     return summary_info
 
+def plot_data(dataframe)->None:
+    """export a png plot
+    """
+    pt = dataframe.groupby("city").agg(price = ("price","median")).sort_values("price", ascending = False).reset_index()
+    plt.figure(figsize= (20,25))
+    plot = sns.barplot(x = "price", y = "city", data = pt)
+    plot_figure = plot.get_figure()
+    plot_figure.savefig("plot.png")
+    
+    return None
+    
+    
+    
+    
