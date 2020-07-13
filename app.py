@@ -19,8 +19,9 @@ def home():
 @ app.route("/scrape")
 def scraper():
     redfin = mongo.db.redfin
-    house_data = scrape_redfin.summary(scrape_redfin.data_cleaner(scrape_redfin.scraper()))
-    redfin.update({},house_data, upsert = True)
+    house_data = scrape_redfin.data_cleaner(scrape_redfin.scraper())
+    house_data_dict = scrape_redfin.summary(house_data)
+    redfin.update({},house_data_dict, upsert = True)
     scrape_redfin.plot_data(house_data)
     return redirect("/", code=302)
 

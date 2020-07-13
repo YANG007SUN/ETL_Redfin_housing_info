@@ -7,6 +7,8 @@ import re
 import ast
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 
 def init_browser():
     """start chrome browser
@@ -118,9 +120,10 @@ def plot_data(dataframe)->None:
     """
     pt = dataframe.groupby("city").agg(price = ("price","median")).sort_values("price", ascending = False).reset_index()
     plt.figure(figsize= (20,25))
+    plt.title("Median House Price In LA County Area", fontsize = 30)
     plot = sns.barplot(x = "price", y = "city", data = pt)
     plot_figure = plot.get_figure()
-    plot_figure.savefig("plot.png")
+    plot_figure.savefig("static/plot.png")
     
     return None
     
