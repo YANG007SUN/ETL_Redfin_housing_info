@@ -25,6 +25,12 @@ def scraper():
     scrape_redfin.plot_data(house_data)
     return redirect("/", code=302)
 
+@app.route("/data")
+def data_display():
+    house_data = mongo.db.redfin.find_one()
+    return render_template("data.html", redfin = house_data)
+
+
 if __name__=="__main__":
     app.run(debug=True)
 

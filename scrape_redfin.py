@@ -84,8 +84,10 @@ def scraper():
             sub_dict["price"] = scrape_cards_info(homecard, "price","span","homecardV2Price",1)
             sub_dict["address"] = scrape_cards_info(homecard, "address","div","homeAddressV2",1)
             sub_dict["link"] = "https://www.redfin.com"+scrape_cards_info(homecard, "link","","",1)
-            sub_dict["city"] = ast.literal_eval(homecard.find_all("script")[0].text)[0]["address"]["addressLocality"].strip()
-
+            try:
+                sub_dict["city"] = ast.literal_eval(homecard.find_all("script")[0].text)[0]["address"]["addressLocality"].strip()
+            except:
+                sub_dict["city"] = "No Information Available"
             # append dict to list
             homecard_list.append(sub_dict)
     
@@ -100,7 +102,8 @@ def data_cleaner(dataframe)->pd.core.frame.DataFrame:
     dataframe["beds"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["beds"]]
     dataframe["baths"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["baths"]]
     dataframe["price"] = [int(p.replace("$","").replace(",","")) for p in dataframe["price"]]
-    dataframe["area"] = [re.split("\s", a)[0].replace(",","") for a in dataframe["area"]]
+    # dataframe["area"] = [re.split("\s", a)[0].replace(",","") for a in dataframe["area"]]
+    dataframe = dataframe.sort_values("city",ascending = False)
     
 
 
@@ -113,7 +116,10 @@ def summary(dataframe)->dict:
     summary_info["avg_price"] = "${:,.0f}".format(round(dataframe["price"].describe()[1],0)) # average price
     summary_info["median_price"] =  "${:,.0f}".format(round(dataframe["price"].describe()[5],0)) # median price
     summary_info["max_price"] =  "${:,.0f}".format(round(dataframe["price"].describe()[-1],0)) # max price
+    summary_info["html_table"] = dataframe.to_html(index=False)
     return summary_info
+
+
 
 def plot_data(dataframe)->None:
     """export a png plot
@@ -126,7 +132,8 @@ def plot_data(dataframe)->None:
     plot_figure.savefig("static/plot.png")
     
     return None
-    
+
+
     
     
     
