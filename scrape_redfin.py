@@ -117,6 +117,7 @@ def summary(dataframe)->dict:
     summary_info["median_price"] =  "${:,.0f}".format(round(dataframe["price"].describe()[5],0)) # median price
     summary_info["max_price"] =  "${:,.0f}".format(round(dataframe["price"].describe()[-1],0)) # max price
     summary_info["html_table"] = dataframe.to_html(index=False)
+    
     return summary_info
 
 

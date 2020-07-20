@@ -12,7 +12,7 @@
 
 <!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-light">
-  <a class="navbar-brand text-white" href="/"><strong>Home</strong></a>
+  <a class="navbar-brand text-white" href="/">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -20,56 +20,41 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link text-white" target="_blank" href="https://www.redfin.com/county/321/CA/Los-Angeles-County/"><strong>Redfin Website</strong></a>
+        <a class="nav-link text-white" target="_blank" href="https://www.redfin.com/county/321/CA/Los-Angeles-County/">Redfin Website</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="/data"><strong>Data</strong></a>
+        <a class="nav-link text-white" href="/data">Data</a>
       </li>
     </ul>
   </div>
 </nav>
 
+
+
 <body>
+    <div class="house text-center">
+      <h1>LA County House Information</h1><hr>
+      <p class = "fs-title ta-center w90 wmx4 mx-auto mb24">
+        You can get the information of the most current LA county 
+        listed housing price by clicking below button. 
+        This program scrapes live Redfin housing data and will display in below.
+      </p>
+      <p><a class="btn" href="/scrape" role="button">Start Scraping!</a></p>
+    </div><br><br>
     <div class="container">
-        
-
-        <div class="jumbotron text-center bg-light">
-            <h1><strong>LA County Housing Information</strong></h1><br>
-            <hr>
-            <p class = "fs-title ta-center w90 wmx4 mx-auto mb24">
-                You can get a sense of the most current LA county 
-                housing price/price range by clicking below button. 
-                This program scrapes live Redfin housing data and will display in below.
-            </p>
-            <p><a class="btn" href="/scrape" role="button"><strong>Start Scrape!</strong></a></p>
-        </div>
-     
-        <div class="summary_content">
-
           <div class="row">
-            <div class="col-md-4">
-              <div class="card">
-                <h4 class="card-title"><strong>Average House Price Listed</strong></h4>
-                <h5 class="card-value">{{ redfin['avg_price'] }}</h5>
-              </div>
+            <div class="kpi col-md-4">
+              <h2 class="card-value">{{ redfin['avg_price'] }}</h2>
+              <h7 class="card-title">Average House Price Listed</h7><hr>
             </div>
-  
-            <div class="col-md-4">
-              <div class="card">
-                <h4 class="card-title"><strong>Median House Price Listed</strong></h4>
-                <h5 class="card-value">{{ redfin['median_price'] }}</h5>
-              </div>
+            <div class="kpi col-md-4">
+              <h2 class="card-value">{{ redfin['median_price'] }}</h2>
+              <h7 class="card-title">Median House Price Listed</h7><hr>
             </div>
-  
-            <div class="col-md-4">
-              <div class="card">
-                <h4 class="card-title"><strong>Max House Price Listed</strong></h4>
-                <h5 class="card-value">{{ redfin['max_price'] }}</h5>
-              </div>
+            <div class="kpi col-md-4">
+              <h2 class="card-value">{{ redfin['max_price'] }}</h2>
+              <h7 class="card-title">Max House Price Listed</h7><hr>
             </div>
-
-            
-
           </div>
 
           <div class="row"><br><br>
@@ -78,12 +63,6 @@
             </div>
           </div>
          
-          
-
-        </div>
-
-
-
     </div>
 </body>
 
