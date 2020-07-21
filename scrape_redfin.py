@@ -8,6 +8,7 @@ import ast
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib
+import datetime
 matplotlib.use('Agg')
 
 def init_browser():
@@ -84,6 +85,7 @@ def scraper():
             sub_dict["price"] = scrape_cards_info(homecard, "price","span","homecardV2Price",1)
             sub_dict["address"] = scrape_cards_info(homecard, "address","div","homeAddressV2",1)
             sub_dict["link"] = "https://www.redfin.com"+scrape_cards_info(homecard, "link","","",1)
+            sub_dict["time"] = datetime.datetime.utcnow()
             try:
                 sub_dict["city"] = ast.literal_eval(homecard.find_all("script")[0].text)[0]["address"]["addressLocality"].strip()
             except:
@@ -91,23 +93,25 @@ def scraper():
             # append dict to list
             homecard_list.append(sub_dict)
     
-    data = pd.DataFrame(columns = ["beds","baths","area","price","address", "link","city"], data = homecard_list)
 
-    return data
+    return homecard_list
 
-def data_cleaner(dataframe)->pd.core.frame.DataFrame:
-    """clean up data from scraper function
+def data_cleaner(list_of_dict)->pd.core.frame.DataFrame:
+    """takes input from scraper function convert list of dict into dataframe and clean up.
     """
+    dataframe = pd.DataFrame(columns = ["beds","baths","area","price","address", "link","city","time"], data = list_of_dict)
+
     # clean up data
     dataframe["beds"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["beds"]]
     dataframe["baths"] = [re.split("\s", bed)[0] if re.split("\s", bed)[0].isnumeric() else "" for bed in dataframe["baths"]]
     dataframe["price"] = [int(p.replace("$","").replace(",","")) for p in dataframe["price"]]
     # dataframe["area"] = [re.split("\s", a)[0].replace(",","") for a in dataframe["area"]]
     dataframe = dataframe.sort_values("city",ascending = False)
-    
-
 
     return dataframe
+     
+        
+
 
 def summary(dataframe)->dict:
     """summarize dataframe from scraper function

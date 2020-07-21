@@ -14,10 +14,4 @@
 * matplotlib
 * seaborn
 
-### **Display**
-![plot1](Images/landingpage.png)
-<br><br>
-![plot2](Images/landingpagegraph.png)
-<br><br>
-![plot3](Images/data.png)
 
