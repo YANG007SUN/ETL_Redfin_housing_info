@@ -8,6 +8,9 @@
     <title>Redfine Housing Summary</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/style.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="../static/app.js" async></script>
 </head>
 
 <!--Navbar-->
@@ -32,10 +35,49 @@
 <body>
     <div class="container">
         <div class="row">
-            <h2 class="data-title">Scraped Redfin Data</h2>
+            <div class="col-md-6">
+              <h2 class="data-title">Scraped Redfin Data</h2>
+            </div>
+
+            <div class="col-md-3">
+              <ul class="list-group" id="filters">
+                <li class="filter list-group-item">
+                  <label">Select a City</label>
+                  <select class="form-control" id="city">
+                  </select>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul class="list-group" id="filters">
+                <li class="filter list-group-item">
+                  <label">Select a Number of Beds</label>
+                  <select class="form-control" id="beds">
+                  </select>
+                </li>
+              </ul>
+            </div>
+
         </div><hr><br>
 
-        <div class="row raw-data">{{redfin["html_table"]|safe}}</div>
+        <div class="row">
+          <table id="house-table" class="dataframe">
+            <thead>
+              <tr>
+                <th class="table-head">address</th>
+                <th class="table-head">area</th>
+                <th class="table-head">baths</th>
+                <th class="table-head">beds</th>
+                <th class="table-head">city</th>
+                <th class="table-head">link</th>
+                <th class="table-head">price</th>
+                <th class="table-head">time</th>
+              </tr>
+              <tbody></tbody>
+            </thead>
+
+          </table>
+        </div>
     </div>
 </body>
 

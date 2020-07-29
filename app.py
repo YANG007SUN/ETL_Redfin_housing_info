@@ -1,4 +1,4 @@
-from flask import render_template, redirect, Flask
+from flask import render_template, redirect, Flask, jsonify
 from flask_pymongo import PyMongo
 import pymongo
 import scrape_redfin
@@ -10,8 +10,7 @@ app = Flask(__name__)
 
 # set up mongodb connection
 mongo = PyMongo(app, uri="mongodb://localhost:27017/house_app")
-
-
+json_list = []  
 
 @app.route("/")
 def home():
@@ -40,6 +39,15 @@ def scraper():
 def data_display():
     house_data = mongo.db.redfin.find_one()
     return render_template("data.html", redfin = house_data)
+
+@app.route("/json")
+def json_data():
+    rawdata = []
+    house_data = mongo.db.redfin_rawdata.find()
+    for house in house_data:
+        del house["_id"]
+        rawdata.append(house)
+    return jsonify(rawdata)
 
 
 if __name__=="__main__":
